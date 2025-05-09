@@ -1,1 +1,671 @@
-/* css/style.css */
+/* 基本設定 */
+:root {
+	--primary-color: #0a1d4d;
+	--accent-color: #ffcc00;
+	--bg-color: #f5f5f5;
+	--text-color: #333;
+	--card-color: #fff;
+	--shadow-color: rgba(0, 0, 0, 0.1);
+	--nav-height: 56px;
+	--bottom-nav-height: 60px;
+	--emoji-input-height: 70px;
+}
+
+body {
+	font-family: 'Noto Sans JP', sans-serif;
+	background-color: var(--bg-color);
+	color: var(--text-color);
+	margin: 0;
+	padding: 0;
+	transition: background-color 0.3s, color 0.3s;
+}
+
+/* ダークモード */
+body.dark-mode {
+	--bg-color: #121212;
+	--text-color: #f5f5f5;
+	--card-color: #1e1e1e;
+	--shadow-color: rgba(0, 0, 0, 0.3);
+}
+
+/* ヘッダー */
+nav {
+	background-color: var(--primary-color) !important;
+	position: fixed;
+	top: 0;
+	width: 100%;
+	z-index: 1000;
+}
+
+/* メインコンテンツ */
+main {
+	margin-top: var(--nav-height);
+	margin-bottom: calc(var(--bottom-nav-height) + var(--emoji-input-height));
+	padding: 20px 0;
+	min-height: calc(100vh - var(--nav-height) - var(--bottom-nav-height) - var(--emoji-input-height));
+}
+
+.container {
+	width: 100%;
+	max-width: 600px;
+	margin: 0 auto;
+	padding: 0 10px;
+}
+
+/* メッセージリスト */
+.collection {
+	border: none;
+	margin-top: 0;
+	margin-bottom: 16px;
+	border-radius: 8px;
+	overflow: hidden;
+	background-color: transparent;
+}
+
+.collection-item {
+	background-color: var(--card-color) !important;
+	border-bottom: 1px solid var(--shadow-color) !important;
+	padding: 12px !important;
+	transition: background-color 0.3s;
+}
+
+.message-item {
+	display: flex;
+	flex-direction: column;
+	border-radius: 8px;
+	margin-bottom: 8px;
+	box-shadow: 0 2px 5px var(--shadow-color);
+}
+
+.message-header {
+	display: flex;
+	align-items: center;
+	padding-bottom: 8px;
+}
+
+.message-user-avatar {
+	width: 40px;
+	height: 40px;
+	border-radius: 50%;
+	margin-right: 12px;
+	overflow: hidden;
+	cursor: pointer;
+}
+
+.message-user-avatar img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
+.message-user-info {
+	flex-grow: 1;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.message-username {
+	font-weight: 500;
+	margin: 0;
+	line-height: 1.2;
+	display: flex;
+	align-items: center;
+}
+
+.message-date {
+	font-size: 12px;
+	color: #888;
+	margin: 0;
+	text-align: right;
+}
+
+.verified-badge {
+	color: #4285F4;
+	margin-left: 4px;
+	font-size: 16px !important;
+	vertical-align: middle;
+}
+
+.message-content {
+	display: flex;
+	align-items: center;
+	width: 100%;
+	padding-top: 6px;
+}
+
+.message-emoji {
+	font-size: 36px;
+	margin: 10px 0;
+	display: block;
+	text-align: center;
+}
+
+.message-time {
+	font-size: 12px;
+	color: #888;
+	margin-left: auto;
+}
+
+.my-message {
+	background-color: rgba(10, 29, 77, 0.1) !important;
+}
+
+.dark-mode .my-message {
+	background-color: rgba(255, 204, 0, 0.1) !important;
+}
+
+.new-message {
+	transform: translateY(20px);
+	opacity: 0;
+	transition: transform 0.3s, opacity 0.3s;
+}
+
+.new-message.show {
+	transform: translateY(0);
+	opacity: 1;
+}
+
+/* 「もっと見る」ボタン */
+#load-more-container {
+	margin: 20px 0;
+}
+
+#load-more {
+	background-color: var(--primary-color);
+}
+
+/* DM画面 */
+.dm-header {
+	display: flex;
+	align-items: center;
+	padding: 10px 0;
+	margin-bottom: 16px;
+}
+
+#dm-partner-name {
+	font-size: 18px;
+	font-weight: 500;
+	margin-left: 10px;
+}
+
+/* DM一覧画面 */
+.dm-contact {
+	position: relative !important;
+	min-height: 60px !important;
+	cursor: pointer;
+}
+
+.dm-contact-emoji {
+	position: absolute;
+	left: 15px;
+	font-size: 24px;
+}
+
+.dm-contact .title {
+	margin-left: 40px;
+	font-weight: 500;
+}
+
+.dm-contact p {
+	margin-left: 40px;
+	color: #888;
+}
+
+/* 絵文字入力エリア */
+.emoji-input-container {
+	position: fixed;
+	bottom: var(--bottom-nav-height);
+	left: 0;
+	width: 100%;
+	background-color: var(--bg-color);
+	padding: 10px;
+	box-shadow: 0 -2px 10px var(--shadow-color);
+	z-index: 100;
+	transition: background-color 0.3s;
+}
+
+.emoji-input-wrapper {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	max-width: 600px;
+	margin: 0 auto;
+}
+
+.selected-emoji {
+	min-width: 50px;
+	height: 50px;
+	border-radius: 25px;
+	background-color: var(--card-color);
+	display: flex;
+	align-items: center;
+	justify-content: flex-start;
+	padding: 0 15px;
+	font-size: 24px;
+	margin-right: 10px;
+	flex-grow: 1;
+	box-shadow: 0 2px 5px var(--shadow-color);
+	overflow: hidden;
+	white-space: nowrap;
+}
+
+#emoji-palette-button {
+	background-color: var(--primary-color);
+	margin-right: 10px;
+}
+
+#send-button {
+	background-color: var(--accent-color);
+}
+
+#send-button i {
+	color: var(--primary-color);
+}
+
+#send-button.flash {
+	animation: flash-animation 0.5s;
+}
+
+@keyframes flash-animation {
+	0% { transform: scale(1); }
+	50% { transform: scale(1.2); background-color: #4CAF50; }
+	100% { transform: scale(1); }
+}
+
+/* 絵文字パレット */
+.emoji-palette {
+	background-color: var(--card-color);
+	border-radius: 12px;
+	box-shadow: 0 -5px 15px var(--shadow-color);
+	padding: 10px;
+	margin-top: 10px;
+	max-width: 600px;
+	margin-left: auto;
+	margin-right: auto;
+	transition: background-color 0.3s;
+}
+
+.emoji-tabs {
+	display: flex;
+	overflow-x: auto;
+	padding-bottom: 10px;
+	border-bottom: 1px solid var(--shadow-color);
+}
+
+.emoji-tab {
+	flex: 0 0 40px;
+	height: 40px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	margin-right: 5px;
+	border-radius: 20px;
+	cursor: pointer;
+	transition: background-color 0.2s;
+}
+
+.emoji-tab.active {
+	background-color: var(--primary-color);
+	color: white;
+}
+
+.emoji-content {
+	display: grid;
+	grid-template-columns: repeat(8, 1fr);
+	gap: 8px;
+	margin-top: 10px;
+	max-height: 200px;
+	overflow-y: auto;
+}
+
+.emoji-item {
+	width: 40px;
+	height: 40px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 20px;
+	cursor: pointer;
+	border-radius: 8px;
+	transition: background-color 0.2s;
+}
+
+.emoji-item:hover {
+	background-color: rgba(10, 29, 77, 0.1);
+}
+
+.dark-mode .emoji-item:hover {
+	background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* 底部ナビゲーション */
+.bottom-nav {
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	width: 100%;
+	height: var(--bottom-nav-height);
+	display: flex;
+	background-color: var(--card-color);
+	box-shadow: 0 -2px 10px var(--shadow-color);
+	z-index: 1000;
+	transition: background-color 0.3s;
+}
+
+.nav-item {
+	flex: 1;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	padding: 6px 0;
+	color: #888;
+	cursor: pointer;
+	transition: color 0.3s;
+}
+
+.nav-item.active {
+	color: var(--primary-color);
+}
+
+.dark-mode .nav-item.active {
+	color: var(--accent-color);
+}
+
+.nav-item i {
+	font-size: 22px;
+	margin-bottom: 2px;
+}
+
+.nav-item span {
+	font-size: 10px;
+}
+
+/* ローディング */
+#loading {
+	padding: 20px;
+}
+
+/* カードとモーダル */
+.card {
+	background-color: var(--card-color);
+	border-radius: 8px;
+	box-shadow: 0 2px 8px var(--shadow-color);
+	transition: background-color 0.3s;
+}
+
+.modal {
+	background-color: var(--card-color);
+	transition: background-color 0.3s;
+}
+
+.modal-footer {
+	background-color: var(--card-color) !important;
+	transition: background-color 0.3s;
+}
+
+/* フォーム部品 */
+.input-field label {
+	color: var(--text-color);
+}
+
+.input-field input:focus + label,
+.input-field .select-wrapper + label {
+	color: var(--primary-color) !important;
+}
+
+/* スイッチ */
+.switch label input[type=checkbox]:checked + .lever {
+	background-color: rgba(10, 29, 77, 0.5);
+}
+
+.switch label input[type=checkbox]:checked + .lever:after {
+	background-color: var(--primary-color);
+}
+
+.dark-mode .switch label input[type=checkbox]:checked + .lever {
+	background-color: rgba(255, 204, 0, 0.5);
+}
+
+.dark-mode .switch label input[type=checkbox]:checked + .lever:after {
+	background-color: var(--accent-color);
+}
+
+/* レスポンシブ調整 */
+@media (max-width: 600px) {
+	.container {
+		padding: 0 5px;
+	}
+	
+	.emoji-content {
+		grid-template-columns: repeat(6, 1fr);
+	}
+}
+
+@media (max-width: 400px) {
+	.emoji-content {
+		grid-template-columns: repeat(5, 1fr);
+	}
+	
+	.nav-item i {
+		font-size: 18px;
+	}
+	
+	.nav-item span {
+		font-size: 9px;
+	}
+}
+
+/* アニメーション */
+@keyframes fadeIn {
+	from {
+		opacity: 0;
+	}
+	to {
+		opacity: 1;
+	}
+}
+
+.fade-in {
+	animation: fadeIn 0.3s ease-in-out;
+}
+
+/* プロフィール画面 */
+.profile-header {
+	position: relative;
+	margin-top: -20px;
+	margin-left: -10px;
+	margin-right: -10px;
+	border-radius: 0 0 8px 8px;
+	overflow: hidden;
+}
+
+.profile-cover {
+	height: 120px;
+	background-color: var(--primary-color);
+}
+
+.profile-info {
+	background-color: var(--card-color);
+	padding: 70px 20px 20px;
+	text-align: center;
+	position: relative;
+	box-shadow: 0 2px 5px var(--shadow-color);
+	transition: background-color 0.3s;
+}
+
+.profile-avatar {
+	position: absolute;
+	top: -50px;
+	left: 50%;
+	transform: translateX(-50%);
+	width: 100px;
+	height: 100px;
+	border-radius: 50%;
+	overflow: hidden;
+	border: 4px solid var(--card-color);
+	box-shadow: 0 2px 10px var(--shadow-color);
+	transition: border-color 0.3s;
+}
+
+.profile-avatar img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
+.profile-action {
+	margin: 20px 0;
+	text-align: center;
+}
+
+.profile-avatar-edit {
+	width: 100px;
+	height: 100px;
+	border-radius: 50%;
+	overflow: hidden;
+	margin: 0 auto 20px;
+	border: 2px solid var(--primary-color);
+}
+
+.profile-avatar-edit img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
+.avatar-selection {
+	margin: 20px 0;
+}
+
+.avatar-options {
+	display: grid;
+	grid-template-columns: repeat(4, 1fr);
+	gap: 10px;
+	max-width: 400px;
+	margin: 0 auto;
+}
+
+.avatar-option {
+	width: 60px;
+	height: 60px;
+	border-radius: 50%;
+	overflow: hidden;
+	margin: 0 auto;
+	cursor: pointer;
+	border: 2px solid transparent;
+	transition: all 0.2s ease;
+}
+
+.avatar-option img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
+.avatar-option.selected {
+	border-color: var(--primary-color);
+	transform: scale(1.1);
+}
+
+.avatar-option:hover {
+	transform: scale(1.1);
+}
+
+.dark-mode .avatar-option.selected {
+	border-color: var(--accent-color);
+}
+
+/* サイドナビゲーション */
+.sidenav {
+	background-color: var(--card-color);
+	transition: background-color 0.3s;
+}
+
+.sidenav .user-view {
+	padding: 16px 16px 0;
+}
+
+.sidenav li>a {
+	color: var(--text-color);
+	transition: color 0.3s;
+}
+
+.sidenav li>a>i {
+	color: inherit;
+}
+
+.sidenav li>a:hover {
+	background-color: rgba(10, 29, 77, 0.05);
+}
+
+.dark-mode .sidenav li>a:hover {
+	background-color: rgba(255, 255, 255, 0.05);
+}
+
+.profile-img-container {
+	display: block;
+	margin-top: -30px;
+	margin-bottom: 12px;
+}
+
+.profile-img {
+	width: 64px;
+	height: 64px;
+	object-fit: cover;
+	border: 2px solid white;
+}
+
+/* アクセシビリティ向上 */
+button:focus, 
+a:focus {
+	outline: 2px solid var(--accent-color);
+	outline-offset: 2px;
+}
+
+/* タッチデバイス対応 */
+@media (hover: none) {
+	.emoji-item {
+		min-height: 44px;
+	}
+	
+	.nav-item {
+		padding: 6px 0;
+	}
+}
+
+/* 設定画面 */
+.settings-user-info {
+	display: flex;
+	align-items: center;
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+
+.settings-user-avatar {
+	width: 60px;
+	height: 60px;
+	border-radius: 50%;
+	overflow: hidden;
+	margin-right: 15px;
+}
+
+.settings-user-avatar img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
+.settings-user-details {
+	flex-grow: 1;
+}
+
+.settings-user-details p {
+	margin: 5px 0;
+}
+
+#settings-username {
+	font-weight: 500;
+	font-size: 18px;
+}

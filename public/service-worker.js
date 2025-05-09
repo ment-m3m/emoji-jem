@@ -1,15 +1,14 @@
-const CACHE_NAME = 'my-pwa-cache-v1';
+const CACHE_NAME = 'emoji-jem-cache-v1';
 const FILES_TO_CACHE = [
-  '/',
-  '/index.html',
-  '/manifest.json',
-  '/css/style.css',
-  '/js/main.js',
-  '/libs/materialize.min.css',
-  '/libs/materialize.min.js',
-  '/libs/pdf-lib.min.js',
-  '/icons/icon-192.png',
-  '/icons/icon-512.png'
+  './',
+  './index.html',
+  './manifest.json',
+  './css/style.css',
+  './js/main.js',
+  'https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css',
+  'https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js',
+  './icons/icon-192.png',
+  './icons/default-avatar.png'
 ];
 
 // インストール時にアプリシェルをキャッシュに保存

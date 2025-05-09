@@ -1,0 +1,1324 @@
+/* 基本要素スタイル */
+html, body {
+  scroll-behavior: smooth; /* スムーズスクロール */
+  overflow-y: auto; /* スクロールを有効化（常にスクロール可能） */
+	overflow-x: hidden;/* 左右スワイプ禁止 */
+}
+
+body {
+  margin: 0;
+  /* メインのフォント */
+  font-family: 'Segoe UI', sans-serif;
+  /* メインの背景色 */
+  background-color: #e0e0e1;
+  color: #f9f9fa;
+  font-size: 14px;
+}
+
+/* チェンジモード用のスタイル */
+body.old-style {
+  background-color: #efefef;
+  color: #333333;
+}
+ /* 投稿文の背景 */
+ .message.own,
+ .message.other {
+   margin: 5px auto;
+   max-width: 94%;
+   background-color: #01012b;
+   border-radius: 9px;
+   text-align: left;
+ }
+
+ /* チェンジモード時のメッセージ */
+ body.old-style .message.own,
+ body.old-style .message.other {
+   background-color: #f0f0f0;
+   border-radius: 0;
+   border-left: 2px solid #5279c7; /* 2ちゃんねる風の青いボーダー */
+ }
+ 
+ .message-list li {
+  background-color: #e0e1e1;
+  color: #e0e1e1;
+  padding: 7px 7px;
+  font-family: 'Segoe UI', sans-serif;
+  margin: 5px 3px;
+  font-size: 0.6em;
+  position: relative;
+  width: 100%;
+  box-sizing: border-box;
+  border-radius: 5px;
+  border: none;
+  border-top: 0px solid #2f3024;
+  border-bottom: 0px solid #2d2d20;
+  box-shadow: none;
+}
+
+/* チェンジモード時のリスト項目 */
+body.old-style .message-list li {
+  background-color: #f0f0f0;
+  color: #333333;
+  border-radius: 0;
+  border: 1px solid #cccccc;
+  border-top: 1px solid #dddddd;
+  border-bottom: 1px solid #bbbbbb;
+  box-shadow: none;
+}
+
+.message-header {
+  display: flex;
+  justify-content: space-between; /* 左右分離 */
+  align-items: flex-start; /* 上寄せに変更 */
+  font-size: 0.85rem;
+  margin-bottom: 4px;
+}
+
+.left-side {
+  display: flex;
+  align-items: center;
+  gap: 6px; /* 要素間の間隔 */
+}
+
+.right-side {
+  display: flex;
+  align-items: center;
+  gap: 4px; /* 要素間の間隔を少しだけ空ける */
+}
+
+/* いいねボタンのスタイル調整 */
+.like-btn {
+  margin-right: 0;
+  opacity: 0.8;
+  transition: opacity 0.2s;
+}
+
+.like-btn:hover {
+  opacity: 1;
+}
+
+.menu-toggle {
+  width: 16px;
+  height: 16px;
+  margin: 0; /* ← margin-rightをリセット！ */
+  background: url("icons/icon-option.png") no-repeat center;
+  background-size: contain;
+  border: none;
+  cursor: pointer;
+}
+
+
+/* 投稿文内の名前、時計などの字の色 */
+.message-header span {
+  color: #9aabd3;
+}
+
+/* 投稿文の文字サイズなど */
+
+.message-actions {
+  display: flex;
+  gap: 6px;
+  font-size: 0.75rem;
+  margin-bottom: 0; /* ← 下余白なくす */
+}
+
+.message-text {
+  font-size: 0.7rem;
+  line-height: 1.3;
+  margin-bottom: 2px; /* ← 縦の隙間を縮小 */
+}
+
+.message-text a {
+  color: #4d5802;
+  text-decoration: underline;
+  word-break: break-all;
+}
+
+.message-time {
+  display: block;
+  margin-bottom: 2px;
+  font-size: 0.5rem;
+  color: #999;
+}
+
+.message-user {
+  font-size: 0.8em;
+  color: #0a1d4d; /* 通常モードでの名前の色 - 濃い紺色 */
+  font-weight: bold;
+  margin-left: 3px;
+}
+
+/* 古いスタイル時の名前の色 */
+.old-style .message-user {
+  color: #0000ff; /* 青色 */
+  margin-left: 0;
+  text-align: left;
+  display: block;
+}
+
+#messageList {
+  padding-top: 30px; /* ← 上にスペースを確保！ */
+}
+
+.count-text {
+  font-size: 0.7em;
+  color: #a0a7b9; /* いいね・返信数はグレー青 */
+  margin-left: 1px;
+  margin-right: 4px;
+  min-width: 14px; /* 数字が変わっても位置がずれないように */
+  text-align: center;
+}
+
+
+/* タイムスタンプ */
+.timestamp {
+  font-size: 0.75rem;
+  color: #cccccc;
+  position: absolute;
+  bottom: 6px;
+  right: 12px;
+}
+
+
+textarea:focus, input:focus {
+  outline: none;
+}
+
+/* コンテナと基本レイアウト */
+.container {
+  max-width: 100%;
+  width: 100%;
+  box-sizing: border-box;
+  padding-left: 0; /* ← もしpadding入れてたら0に */
+  padding-right: 0;
+}
+
+/* ホーム画面と設定画面 */
+#homeScreen {
+  display: block;  /* 初期状態でを表示 */
+	padding-top: 100px; /* フローティングバー高さ＋ちょっと余裕 */
+}
+
+#profileScreen {
+  display: none;  /* 初期状態でprofileScreenは非表示 */
+  position: fixed; /* 固定表示にする */
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  padding-left: 15px;
+  padding-right: 15px;
+  overflow: auto; /* スクロール可能にする */
+  overflow-x: hidden; /* 横スクロール禁止 */
+  /* 背景色設定 */
+  background-color: #0a1d4d;
+  color: #ffffff;
+  padding: 15px;
+  box-sizing: border-box;
+  overflow-x: hidden;
+}
+
+/* チェンジモード用 */
+body.old-style #profileScreen {
+  background-color: #efefef;
+  color: #0a1d4d;
+}
+
+
+
+/* PCやタブレット表示時の設定 */
+@media screen and (min-width: 769px) {
+  #homeScreen,
+  #profileScreen {
+    display: block;
+    position: absolute; /* 並べて表示 */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+  }
+
+  #profileScreen {
+    display: none; /* 初期状態ではprofileScreenを非表示 */
+  }
+}
+
+/* タイトルとヘッダー要素 */
+.title {
+  text-align: center;
+  font-size: 1.5rem;
+  color: #dbc508;
+  margin-bottom: 10px;
+}
+
+/* 認証関連 */
+.auth {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.auth input {
+  padding: 6px 10px;
+  border-radius: 8px;
+  border: none;
+  font-size: 0.9rem;
+}
+
+.auth button {
+  padding: 8px 14px;
+  background-color: #ffe600;
+  border: none;
+  border-radius: 20px;
+  font-weight: bold;
+  color: #0a1d4d;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+/* メッセージリスト */
+.message-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  width: 100%;
+  max-width: 100vw; /* ← 最大幅をウィンドウに制限にゃ！ */
+  box-sizing: border-box;
+}
+
+/* いいねアイコン、返信アイコンの大きさ */
+.icon-btn {
+	width: 14px;
+  height: 14px;
+  background-size: contain;
+  background-repeat: no-repeat;
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+  margin-right: 0px;
+  transition: transform 0.2s;
+}
+
+.icon-btn:hover {
+  transform: scale(1.15);
+}
+
+.icon-with-count {
+  display: flex;
+  align-items: center;
+  gap: 0px;              /* ← gapを6px→3pxに縮めるにゃ */
+}
+
+.user-icon {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  margin-right: 6px;
+  vertical-align: middle;
+}
+
+/* いいねボタン */
+.likeBtn {
+background: none;
+border: none;
+color: #ffe600;
+font-size: 1rem;
+margin-top: 1px;
+margin-right: 10px;
+cursor: pointer;
+}
+
+.deleteBtn {
+  background: none;
+  border: none;
+  color: #ffe600;
+  font-size: 1rem;
+  margin-top: 1px;
+  margin-right: 10px;
+  cursor: pointer;
+}
+
+/* オプションボタン */
+.menu-toggle {
+  width: 24px; /* 幅を広げてタップしやすくする */
+  height: 24px; /* 高さを広げてタップしやすくする */
+  margin-top: 3px;
+  margin-right: 10px;
+  background: url("icons/icon-option.png") no-repeat center center;
+  background-size: 15px 15px; /* 実際の画像サイズはそのまま */
+  border: none;
+  cursor: pointer;
+  padding: 8px; /* パディングを追加してタップ領域を拡大 */
+  box-sizing: content-box; /* パディングを含めたサイズにする */
+  touch-action: manipulation; /* タッチデバイスでの操作性を向上 */
+}
+
+.menu-options button.delete-option {
+  background-color: #10092bb8; /* 紺色(10,29,77)で70%透過 */
+  border-radius: 8px;
+  padding: 6px 20px;
+  color: #fff; /* 文字は白 */
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.menu-options button.delete-option img {
+  width: 20px;
+  height: 20px;
+}
+
+/* オプションボタンのポップアップメニュー */
+.menu-options {
+  display: none;
+  position: absolute;
+  background-color: rgba(10, 29, 77, 0.95); /* 紺色＋透過95% */
+  color: white;
+  font-family: 'Segoe UI', sans-serif;
+  font-size: 0.9rem;
+  padding: 12px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+  z-index: 2001;
+  min-width: 120px;
+  max-width: 150px;
+  animation: fadeIn 0.2s ease-out;
+  position: relative; /* 矢印のために必要 */
+}
+
+/* 右下に配置される矢印 */
+.menu-options.arrow-bottom-right::after {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  right: 14px;
+  width: 0;
+  height: 0;
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  border-top: 8px solid rgba(10, 29, 77, 0.95); /* 下向き */
+  z-index: 2002;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-5px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.menu-option-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 0;
+  cursor: pointer;
+}
+
+.menu-option-item:hover {
+  background-color: rgba(255, 255, 255, 0.2); /* ホバーで少し明るく */
+  border-radius: 8px;
+}
+
+.option-icon {
+  width: 16px;
+  height: 16px;
+}
+
+.menu-divider {
+  border: none;
+  border-top: 1px solid rgba(255, 255, 255, 0.3);
+  margin: 8px 0;
+}
+
+
+
+.menu-options.show {
+  display: block;
+}
+
+.menu-options button {
+  background: none;
+  border: none;
+  padding: 4px 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* ハンバーガーメニュー */
+.hamburger {
+  position: fixed;       /* ← 固定表示に変更！ */
+  top: 10px;             /* ← 画面上から10px */
+  right: 10px;           /* ← 画面右から10px */
+  background: none;
+  border: none;
+  font-size: 20px;        /* ボタン内の文字サイズを大きくする */
+  width: 44px;            /* タッチできる最低幅 */
+  height: 44px;           /* タッチできる最低高さ */  cursor: pointer;
+  color: #ffffff;
+  z-index: 1002;         /* ← 他要素より前面に表示 */
+	touch-action: manipulation; /* ←これ追加！ */
+}
+
+.hamburger span {
+  display: block;
+  width: 24px;
+  height: 3px;
+  background-color: #dededf; /* ハンバーガーの色 */
+  margin: 4px 0;
+  border-radius: 2px;
+}
+
+
+/* 投稿フォーム */
+.post-form {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.post-form input {
+  flex: 1;
+  padding: 10px;
+  border-radius: 20px;
+  border: none;
+  font-size: 0.9rem;
+}
+
+.post-form button {
+  padding: 10px 20px;
+  background-color: #ffe600;
+  border: none;
+  border-radius: 20px;
+  font-weight: bold;
+  color: #0a1d4d;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.post-form-wrapper {
+  display: block;
+  opacity: 0;
+	pointer-events: none; /* ←これを追加！！！ */
+  transition: all 0.3s ease;
+  position: fixed;
+  bottom: 10px;
+	
+  left: 50%;
+  transform: translateX(-50%);
+  width: 95%;
+  max-width: 700px;
+  background: #f9f9f9;
+  padding: 10px;
+  border-top: 1px solid #ccc;
+  border-radius: 10px;
+  box-sizing: border-box;
+  z-index: 1000;
+}
+
+#postFormWrapper.show {
+  display: block; /* showクラスがついたら表示 */
+}
+#postFormWrapper .cancel-btn {
+  position: absolute;
+  top: 5px;
+  right: 10px;
+  z-index: 20; /* ×ボタンが投稿ボタンより手前に表示されるように */
+}
+
+#postFormWrapper button.reply-send-btn,
+#postFormWrapper button:not(.cancel-btn) {
+  display: block;
+  margin-left: auto;     /* ← これが右寄せの決め手！ */
+  margin-top: 8px;
+}
+
+/* apostボタン */
+#toggleFormBtn {
+  position: fixed;
+  bottom: 30px; /* ← nav帯の上になるように変更 */
+  right: 20px;
+  display: inline-block;
+  width: 80px;
+  height: 40px;
+  border: none;
+  border-radius: 18px;
+  background-color: #decb24db;
+  color: #0a1d4d;
+  font-weight: bold;
+  cursor: pointer;
+  font-size: 0.8rem;
+  transition: all 0.3s ease;
+  font-family: 'Segoe UI', sans-serif;
+  z-index: 10;
+}
+
+#toggleFormBtn.hide {
+  opacity: 0;
+  pointer-events: none;
+  height: 0;
+}
+
+/* 投稿ボックス */
+.post-box {
+  display: flex;
+  align-items: center;
+  border: 1px solid #ccc;
+  border-radius: 30px;
+  overflow: hidden;
+  width: 100%;
+  height: 40px;
+  background: white;
+  margin-top: 10px;
+}
+
+.post-form-row {
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+  gap: 10px; /* ← 入力とボタンの間隔 */
+}
+
+.post-form-row input {
+  flex: 1;
+  height: 40px;
+  padding: 0 12px;
+  font-size: 0.9rem;
+  border-radius: 20px;
+  border: 1px solid #ccc;
+  font-family: 'Segoe UI', sans-serif;
+  outline: none;
+  box-sizing: border-box;
+}
+
+.post-btn {
+  height: 40px;
+  padding: 0 20px;
+  background-color: #ffe710e6;
+  border: none;
+  border-radius: 20px;
+  font-weight: bold;
+  color: #0a1d4d;
+  font-size: 0.75rem;
+  cursor: pointer;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+/* メッセージ入力エリア */
+#messageInput {
+  width: 450px;           
+  min-height: 10px;
+  font-size: 0.9rem;
+  padding: 8px 12px;
+  border-radius: 20px;
+  height: 40px;
+  font-family: 'Segoe UI', sans-serif;
+  resize: none;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+#messageInput:focus {
+  outline: 0px solid rgb(19, 17, 122); /* ← フォーカス時に黒くなる原因 */
+}
+
+/* 送信ボタン */
+.submit-post-btn {
+  display: block;              /* ← 幅を効かせるため */
+  max-width: 80px;            /* ← 必要に応じて制限 */
+  margin-top: 8px;
+  padding: 10px 20px;
+  font-weight: bold;
+  border: none;
+  border-radius: 20px;
+  background-color: #ffe600;
+  color: #0a1d4d;
+  font-family: 'Segoe UI', sans-serif;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+
+.reply-divider {
+  border-top: 1px solid #ccc;
+  margin: 8px 0;
+  width: 100%;
+}
+
+.replies div {
+  margin-top: 4px;
+  font-size: 0.85em;
+  color: #333;
+}
+
+/* 検索ボックス */
+.search-box {
+  display: flex;
+  align-items: center;
+  border: 1px solid #ccc;
+  border-radius: 30px;
+  overflow: hidden;
+  width: 300px;
+  height: 40px;
+  background: white;
+}
+
+.search-box input {
+  flex: 1;
+  border: none;
+  padding: 0 12px;
+  font-size: 0.9rem;
+  font-family: 'Segoe UI', sans-serif;
+  outline: none;
+}
+
+.search-box .search-btn {
+  width: 50px;
+  height: 100%;
+  border: none;
+  background: url("search-icon.png") no-repeat center;
+  background-size: 18px 18px;
+  background-color: #f9f9f9;
+	
+  cursor: pointer;
+}
+
+/* ユーザー名表示ボックス */
+.displayname-box {
+  width: 250px;
+  height: 40px;
+  background: white;
+  border: 1px solid #ccc;
+  border-radius: 30px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+}
+
+.displayname-box input {
+  border: none;
+  padding: 0 12px;
+  font-size: 0.9rem;
+  font-family: 'Segoe UI', sans-serif;
+  outline: none;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+}
+
+/* タイムライン */
+.timeline-tabs {
+  display: flex;
+  justify-content: center;
+  margin: 10px 0;
+  gap: 10px;
+}
+
+.tab-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: 10%; /* ← 丸ボタンにする！ */
+  border: none;
+  background-color: #e0e0e0;
+  color: #0a1d4d;
+  font-weight: bold;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.tab-btn.active {
+  background-color: #7a7a7a1c;
+}
+
+/* ナビゲーション */
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 40px;
+  background-color: #3a4d0a;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  z-index: 900;
+  padding: 0 10px;
+}
+
+.nav-btn {
+  flex: 1;
+  height: 100%;
+  border: none;
+  background: none;
+  color: #ffe600;
+  font-size: 0.9rem;
+  font-weight: bold;
+  cursor: pointer;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+/* スクロールボタン */
+#scrollButtons {
+  position: fixed;
+  top: 50%;
+  right: 20px;
+  transform: translateY(-50%);
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.scroll-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: none;
+  background-color: rgba(209, 209, 207, 0.6);
+  color: #0a1d4d;
+  font-size: 1.2rem;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+  transition: background-color 0.3s;
+  
+  display: flex;           /* ← 追加！ */
+  justify-content: center; /* ← 横方向センタリング */
+  align-items: center;     /* ← 縦方向センタリング */
+  padding: 0;              /* ← paddingリセット！ */
+}
+
+
+.scroll-btn:hover {
+  background-color: rgba(194, 181, 68, 0.693);
+}
+
+/* スライドパネル */
+.slide-panel {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: white;
+  z-index: 2000;
+  transform: translateX(100%);
+  transition: transform 0.3s ease;
+}
+
+.slide-panel.show {
+  transform: translateX(0);
+  display: block !important;
+}
+
+/* 2ちゃん風スタイル */
+.toggle-mode {
+  background: #ffe600;
+  color: #0a1d4d;
+  border: none;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: bold;
+  padding: 8px 16px;
+  cursor: pointer;
+}
+
+
+.old-style {
+  font-family: 'ＭＳ Ｐゴシック', sans-serif;
+  background: #efefef;
+  color: #333333;
+  font-size: 12px;
+}
+
+.old-style .container {
+  max-width: 100%;
+  margin: 0;
+  padding: 10px;
+}
+
+.old-style .message-list li {
+  background-color: #f0f0f0;
+  border-bottom: 1px solid #999;
+  padding: 8px 10px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #000000;
+  font-family: 'ＭＳ Ｐゴシック', sans-serif;
+}
+
+.old-style .message-user {
+  color: #0000ff;
+  font-weight: normal;
+}
+
+.old-style .message-time {
+  color: #000000;
+}
+
+.old-style .message-text {
+  padding-left: 10px;
+}
+
+.old-style #profileScreen, 
+.old-style #bookmarkScreen {
+  background-color: #efefef;
+  color: #0a1d4d;
+}
+
+
+select {
+  background-color: white; /* 背景を白に */
+  color: #0a1d4d;           /* 文字色もアプリに合わせて濃紺に */
+  font-family: 'Segoe UI', sans-serif; /* 名前欄と同じフォントに統一 */
+  font-size: 14px;          /* 名前欄と同じ文字サイズに */
+  height: 40px;             /* 高さも合わせる（例：40px） */
+  padding: 5px 10px;        /* 少し内側余白も追加するときれい */
+  border: 1px solid #ccc;   /* 枠線を少し目立たせる（好みで調整可） */
+  border-radius: 5px;       /* 角を少し丸めると自然になる */
+  box-sizing: border-box;   /* 幅や高さをパディング込みで計算させる */
+}
+
+.gender-box select {
+  flex: 0 0 auto; /* 伸び縮みを禁止して、自分の幅を守る */
+  padding: 8px 4px;
+  font-size: 0.9rem;
+  border-radius: 20px;
+	border: none;
+  width: 160px;           
+}
+
+/* フォーム項目 */
+.gender-box {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  margin-top: 20px;
+}
+
+
+
+
+
+
+.description-box {
+  margin-top: 20px;
+  margin-bottom: 10px;
+  padding-left: 10px; /* ← 左右に余白追加 */
+  padding-right: 10px;
+  width: 100%;
+  box-sizing: border-box; /* ←これも忘れず追加！ */
+}
+#descriptionInput {
+  width: 100%;
+  box-sizing: border-box; /* ← これでpadding込みできれいに収まる */
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 15px; /* フォントサイズを1.5倍に */
+  background: #f9f9f9;
+  resize: vertical;
+  overflow-wrap: break-word;
+  word-break: break-word;
+}
+
+.description-box textarea {
+  width: 100%;
+  max-width: 100%;
+  padding: 10px;
+  font-size: 1rem;
+  border-radius: 20px;
+  border: 1px solid #ccc;
+  resize: vertical;
+  height: 150px;
+  box-sizing: border-box;
+  word-break: break-word;
+	
+  overflow-wrap: break-word;
+}
+
+.post-form-wrapper.show {
+  opacity: 1;
+  display: block;
+  position: fixed;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000;
+	pointer-events: auto; /* ←これ絶対必要！！！ */
+}
+
+
+/* フローティングヘッダー */
+#floatingHeader {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  backdrop-filter: blur(10px); /* 背景をぼかして透過感を出す */
+  background-color: rgba(236, 237, 241, 0.8); /* 白＋80%透明 */
+  z-index: 1000;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1); /* ほんのり下線 */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05); /* ふわっと影 */
+  transition: transform 0.3s ease; /* スムーズに動かすため */
+  will-change: transform;
+}
+
+/* チェンジモード時のヘッダー */
+body.old-style #floatingHeader {
+  background-color: rgba(236, 237, 241, 0.8); /* 白＋80%透明 */
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  color: #333333;
+}
+
+/* 上段：ロゴとサーチボタン */
+.header-top {
+  display: flex;
+	justify-content: flex-start; /* ←これに直す！ */
+	align-items: center;
+  padding: 10px 16px;
+	gap: 10px; /* ← ロゴと検索の間にちょっとだけ隙間を作る！ */
+}
+
+/* ロゴアイコン */
+.logo-icon {
+  height: 50px;
+}
+
+/* サーチボタン */
+.search-btn {
+  background: none;
+  border: none;
+  color: #0a1d4d;
+  font-size: 16px;
+  padding: 8px 12px;
+  cursor: pointer;
+}
+
+/* タブボタンエリア */
+#floatingTabButtons .tab-buttons {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  background: rgba(255, 255, 255, 0.9);
+  padding: 8px 10px;
+  border-radius: 20px;
+}
+
+
+/* 各タブボタン */
+.tab-btn {
+  flex: 1;
+  padding: 10px 0;
+  background: none;
+  border: none;
+  font-size: 14px;
+  color: #0a1d4d; /* 文字色を紺に変更 */
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+/* チェンジモード時のタブボタン */
+body.old-style .tab-btn {
+  color: #0a1d4d;
+}
+
+.tab-btn:hover {
+  background-color: rgba(10, 29, 77, 0.05); /* タブに軽いホバー効果 */
+}
+
+.floating-search-box {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.floating-search-box input {
+  height: 40px;
+  padding: 6px 10px;
+  font-size: 14px;
+  border-radius: 60px;
+  border: 1px solid #ccc;
+  background-color: #ffffff;
+  color: #333333;
+  outline: none;
+  width: 200px; /* ← ここで幅を短めに調整してる！ */
+  box-sizing: border-box;
+}
+
+/* プレースホルダーの色を変更 */
+.floating-search-box input::placeholder {
+  color: #999999;
+}
+
+/* チェンジモード時の検索ボックス */
+body.old-style .floating-search-box input {
+  border: 1px solid #ccc;
+  background-color: #ffffff;
+  color: #333333;
+}
+
+body.old-style .floating-search-box input::placeholder {
+  color: #999999;
+}
+
+#networkStatus {
+  position: fixed;
+  top: 5px; /* 画面上から10px */
+  left: 5px; /* 画面左から10px */
+  background: rgba(200, 200, 200, 0.8); /* 薄いグレー＋透明感 */
+  color: #333; /* 文字色は濃いグレー */
+  padding: 3px 8px;
+  border-radius: 15px; /* 角丸 */
+  font-size: 8px; /* 小さな文字サイズ */
+  z-index: 99999;
+  display: none;
+  opacity: 0;
+  transition: opacity 1s ease;
+}
+
+#networkStatus.show {
+  display: block;
+  opacity: 1;
+}
+
+.profile-inner, .bookmark-inner {
+  max-width: 100%;
+  width: auto;
+  box-sizing: border-box;
+  padding: 10px;
+}
+
+/* プロフィールヘッダー */
+.profile-header {
+  padding: 15px;
+  margin-top: 10px;
+  margin-bottom: 20px;
+}
+
+/* ログインボタン */
+.google-auth-btn {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: white;
+  color: #0a1d4d;
+  border: 1px solid #ccc;
+  border-radius: 30px;
+  font-family: 'Segoe UI', sans-serif;
+  font-size: 0.9em;
+  cursor: pointer;
+  margin-bottom: 10px;
+  min-width: 150px; /* 元の160pxから10px短く */
+  transition: all 0.2s ease;
+}
+
+
+
+/* ログイン中はボタンをハイライト */
+#googleLoginBtn.logged-in {
+  border: 2px solid #5aff5a;
+  background-color: rgba(90, 255, 90, 0.1);
+}
+
+.login-email-display {
+  display: block;
+  color: white;
+  margin: 5px 0 15px 0;
+  font-size: 14px;
+}
+
+.unique-id-section {
+  margin: 1px 0;
+  color: white;
+  font-size: 11px;
+}
+
+.unique-id-label {
+  font-weight: none;
+}
+
+.unique-id-value {
+  font-family: monospace;
+  margin-left: 5px;
+}
+
+/* ブックマーク画面のスタイル */
+#bookmarkScreen {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  padding: 15px;
+  /* 背景色設定 */
+  background-color: #0a1d4d;
+  color: #ffffff;
+  box-sizing: border-box;
+  overflow-y: auto;
+  overflow-x: hidden;
+  z-index: 2000;
+}
+
+/* チェンジモード用 */
+body.old-style #bookmarkScreen {
+  background-color: #efefef;
+  color: #0a1d4d;
+}
+
+.bookmark-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 15px 0;
+  padding: 10px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.bookmark-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.bookmark-action-btn {
+  padding: 5px 10px;
+  background-color: rgba(255, 255, 255, 0.2);
+  color: white;
+  border: none;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+/* チェンジモード時のブックマークボタン */
+body.old-style .bookmark-action-btn {
+  background-color: rgba(10, 29, 77, 0.2);
+  color: #0a1d4d;
+}
+
+.bookmark-action-btn:hover {
+  background-color: rgba(255, 255, 255, 0.3);
+}
+
+.bookmark-action-btn.delete-btn {
+  background-color: rgba(255, 0, 0, 0.3);
+}
+
+.bookmark-action-btn.delete-btn:hover {
+  background-color: rgba(255, 0, 0, 0.5);
+}
+
+.export-btn {
+  padding: 5px 12px;
+  background-color: #ffe600;
+  color: #0a1d4d;
+  border: none;
+  border-radius: 20px;
+  font-weight: bold;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.export-btn:hover {
+  background-color: #ffec2b;
+}
+
+.bookmark-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.bookmark-item {
+  margin-bottom: 12px;
+  padding: 10px;
+  /* 通常モードでの投稿文エリア */
+  background-color: #01012b;
+  border-radius: 9px; /* 丸みを持たせる */
+  color: #f9f9fa;
+  position: relative;
+  padding-right: 30px; /* チェックボックスのスペース確保 */
+}
+
+/* チェンジモード時の投稿文エリア */
+body.old-style .bookmark-item {
+  background-color: #f0f0f0;
+  border-radius: 0;
+  border-left: 2px solid #5279c7; /* 2ちゃんねる風の青いボーダー */
+  border: 1px solid #cccccc;
+  color: #333333;
+}
+
+.bookmark-checkbox {
+  position: absolute;
+  top: 50%; /* 投稿の中央に配置 */
+  right: 10px; /* 投稿の右側に配置、10px余白 */
+  transform: translateY(-50%); /* 垂直中央揃え */
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+}
+
+.empty-bookmarks {
+  text-align: center;
+  margin-top: 40px;
+  color: #0a1d4d;
+}
+
+.empty-hint {
+  font-size: 0.9rem;
+  color: #0a1d4d;
+  margin-top: 10px;
+}
+
+/* チェンジモード時のスタイル */
+body.old-style .empty-bookmarks,
+body.old-style .empty-hint {
+  color: #0a1d4d;
+}
+
+
+#hamburgerMenu {
+  position: fixed;
+  top: 60px;
+  right: 10px;
+  background-color: rgba(10, 29, 77, 0.95); /* 紺色＋95%透明 */
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+  z-index: 2000;
+  padding: 8px 0;
+  width: 160px; /* 幅を揃えるときれい */
+  z-index: 110000;
+  animation: fadeIn 0.2s ease-out;
+  transform-origin: top right;
+}
+
+.menu-btn {
+  display: block;
+  width: 100%;
+  padding: 12px 16px;
+  background: none;
+  border: none;
+  text-align: left;
+  color: #ffffff;
+  font-weight: bold;
+  font-size: 14px;
+  font-family: 'Segoe UI', sans-serif;
+  cursor: pointer;
+}
+
+
+
+.menu-divider {
+  height: 1px;
+  background-color: rgba(255, 255, 255, 0.3); /* 薄い白（グレーっぽく見える） */
+  margin: 0 8px;
+}

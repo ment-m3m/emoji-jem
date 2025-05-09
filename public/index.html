@@ -1,89 +1,358 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Welcome to Firebase Hosting</title>
-
-    <!-- update the version number as needed -->
-    <script defer src="/__/firebase/11.6.1/firebase-app-compat.js"></script>
-    <!-- include only the Firebase features as you need -->
-    <script defer src="/__/firebase/11.6.1/firebase-auth-compat.js"></script>
-    <script defer src="/__/firebase/11.6.1/firebase-database-compat.js"></script>
-    <script defer src="/__/firebase/11.6.1/firebase-firestore-compat.js"></script>
-    <script defer src="/__/firebase/11.6.1/firebase-functions-compat.js"></script>
-    <script defer src="/__/firebase/11.6.1/firebase-messaging-compat.js"></script>
-    <script defer src="/__/firebase/11.6.1/firebase-storage-compat.js"></script>
-    <script defer src="/__/firebase/11.6.1/firebase-analytics-compat.js"></script>
-    <script defer src="/__/firebase/11.6.1/firebase-remote-config-compat.js"></script>
-    <script defer src="/__/firebase/11.6.1/firebase-performance-compat.js"></script>
-    <!-- 
-      initialize the SDK after all desired features are loaded, set useEmulator to false
-      to avoid connecting the SDK to running emulators.
-    -->
-    <script defer src="/__/firebase/init.js?useEmulator=true"></script>
-
-    <style media="screen">
-      body { background: #ECEFF1; color: rgba(0,0,0,0.87); font-family: Roboto, Helvetica, Arial, sans-serif; margin: 0; padding: 0; }
-      #message { background: white; max-width: 360px; margin: 100px auto 16px; padding: 32px 24px; border-radius: 3px; }
-      #message h2 { color: #ffa100; font-weight: bold; font-size: 16px; margin: 0 0 8px; }
-      #message h1 { font-size: 22px; font-weight: 300; color: rgba(0,0,0,0.6); margin: 0 0 16px;}
-      #message p { line-height: 140%; margin: 16px 0 24px; font-size: 14px; }
-      #message a { display: block; text-align: center; background: #039be5; text-transform: uppercase; text-decoration: none; color: white; padding: 16px; border-radius: 4px; }
-      #message, #message a { box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24); }
-      #load { color: rgba(0,0,0,0.4); text-align: center; font-size: 13px; }
-      @media (max-width: 600px) {
-        body, #message { margin-top: 0; background: white; box-shadow: none; }
-        body { border-top: 16px solid #ffa100; }
-      }
-    </style>
-  </head>
-  <body>
-    <div id="message">
-      <h2>Welcome</h2>
-      <h1>Firebase Hosting Setup Complete</h1>
-      <p>You're seeing this because you've successfully setup Firebase Hosting. Now it's time to go build something extraordinary!</p>
-      <a target="_blank" href="https://firebase.google.com/docs/hosting/">Open Hosting Documentation</a>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Emoji jem</title>
+  
+  <!-- PWA関連設定 -->
+  <link rel="manifest" href="./manifest.json">
+  <meta name="theme-color" content="#0a1d4d">
+  <link rel="icon" type="image/png" href="./icons/icon-192.png">
+  <link rel="apple-touch-icon" href="./icons/icon-192.png">
+  
+  <!-- Materialize CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+  
+  <!-- メインCSS -->
+  <link rel="stylesheet" href="./css/style.css">
+</head>
+<body>
+  <div id="app">
+    <!-- ヘッダー -->
+    <nav class="nav-wrapper">
+      <div class="container">
+        <span class="brand-logo center">Emoji jem</span>
+      </div>
+    </nav>
+    
+    <!-- メインコンテンツ -->
+    <main>
+      <div class="container">
+        <!-- メッセージリスト -->
+        <div id="message-container">
+          <div class="center-align" id="loading">
+            <div class="preloader-wrapper small active">
+              <div class="spinner-layer spinner-blue-only">
+                <div class="circle-clipper left"><div class="circle"></div></div>
+                <div class="gap-patch"><div class="circle"></div></div>
+                <div class="circle-clipper right"><div class="circle"></div></div>
+              </div>
+            </div>
+          </div>
+          <ul id="message-list" class="collection"></ul>
+          <div class="center-align" id="load-more-container">
+            <button id="load-more" class="btn waves-effect waves-light">もっと見る</button>
+          </div>
+        </div>
+        
+        <!-- DM画面 (デフォルトは非表示) -->
+        <div id="dm-container" style="display:none;">
+          <div class="dm-header">
+            <button class="btn-flat waves-effect" id="back-to-main">
+              <i class="material-icons">arrow_back</i>
+            </button>
+            <span id="dm-partner-name">DM</span>
+          </div>
+          <ul id="dm-message-list" class="collection"></ul>
+        </div>
+        
+        <!-- DM一覧画面 (デフォルトは非表示) -->
+        <div id="dm-list-container" style="display:none;">
+          <h5 class="center-align">DM一覧</h5>
+          <ul id="dm-contacts" class="collection">
+            <!-- DMリストはJSで動的に生成 -->
+          </ul>
+        </div>
+        
+        <!-- プロフィール画面 (デフォルトは非表示) -->
+        <div id="profile-container" style="display:none;">
+          <div class="profile-header">
+            <div class="profile-cover"></div>
+            <div class="profile-info">
+              <div class="profile-avatar">
+                <img id="profile-image" class="circle" src="./icons/default-avatar.png" alt="プロフィール画像">
+              </div>
+              <h5 id="profile-name">ユーザー名</h5>
+              <p id="profile-bio">自己紹介文がここに表示されます。</p>
+              <p id="profile-id" class="grey-text">ID: 匿名ユーザー</p>
+            </div>
+          </div>
+          
+          <div class="profile-action">
+            <button id="edit-profile-button" class="btn waves-effect waves-light">
+              <i class="material-icons left">edit</i>プロフィール編集
+            </button>
+          </div>
+          
+          <div class="divider" style="margin: 20px 0;"></div>
+          
+          <h6 class="center-align">投稿履歴</h6>
+          <ul id="profile-posts" class="collection"></ul>
+        </div>
+        
+        <!-- プロフィール編集モーダル -->
+        <div id="edit-profile-modal" class="modal">
+          <div class="modal-content">
+            <h4>プロフィール編集</h4>
+            <div class="row">
+              <div class="input-field col s12">
+                <input id="edit-username" type="text" class="validate">
+                <label for="edit-username">ユーザー名</label>
+              </div>
+              <div class="input-field col s12">
+                <textarea id="edit-bio" class="materialize-textarea"></textarea>
+                <label for="edit-bio">自己紹介</label>
+              </div>
+              <div class="col s12 center-align">
+                <h5>プロフィール画像を選択</h5>
+                <div class="profile-avatar-edit">
+                  <img id="preview-profile-image" class="circle" src="./icons/profile-icons/avatar1.svg" alt="プロフィール画像">
+                </div>
+                <div class="avatar-selection">
+                  <div class="avatar-options">
+                    <div class="avatar-option" data-avatar="./icons/profile-icons/avatar1.svg">
+                      <img src="./icons/profile-icons/avatar1.svg" alt="アバター1" class="circle">
+                    </div>
+                    <div class="avatar-option" data-avatar="./icons/profile-icons/avatar2.svg">
+                      <img src="./icons/profile-icons/avatar2.svg" alt="アバター2" class="circle">
+                    </div>
+                    <div class="avatar-option" data-avatar="./icons/profile-icons/avatar3.svg">
+                      <img src="./icons/profile-icons/avatar3.svg" alt="アバター3" class="circle">
+                    </div>
+                    <div class="avatar-option" data-avatar="./icons/profile-icons/avatar4.svg">
+                      <img src="./icons/profile-icons/avatar4.svg" alt="アバター4" class="circle">
+                    </div>
+                    <div class="avatar-option" data-avatar="./icons/profile-icons/avatar5.svg">
+                      <img src="./icons/profile-icons/avatar5.svg" alt="アバター5" class="circle">
+                    </div>
+                    <div class="avatar-option" data-avatar="./icons/profile-icons/avatar6.svg">
+                      <img src="./icons/profile-icons/avatar6.svg" alt="アバター6" class="circle">
+                    </div>
+                    <div class="avatar-option" data-avatar="./icons/profile-icons/avatar7.svg">
+                      <img src="./icons/profile-icons/avatar7.svg" alt="アバター7" class="circle">
+                    </div>
+                    <div class="avatar-option" data-avatar="./icons/profile-icons/avatar8.svg">
+                      <img src="./icons/profile-icons/avatar8.svg" alt="アバター8" class="circle">
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <a href="#!" class="modal-close waves-effect waves-green btn-flat">キャンセル</a>
+            <a href="#!" id="save-profile" class="modal-close waves-effect waves-blue btn-flat">保存</a>
+          </div>
+        </div>
+        
+        <!-- 設定画面 (デフォルトは非表示) -->
+        <div id="settings-container" style="display:none;">
+          <h5 class="center-align">設定</h5>
+          
+          <!-- アカウント情報 -->
+          <div class="row">
+            <div class="col s12">
+              <div class="card">
+                <div class="card-content">
+                  <span class="card-title">アカウント情報</span>
+                  <div class="settings-user-info">
+                    <div class="settings-user-avatar">
+                      <img id="settings-user-image" class="circle" src="./icons/default-avatar.png" alt="ユーザーアイコン">
+                    </div>
+                    <div class="settings-user-details">
+                      <p id="settings-username">ユーザー名</p>
+                      <p id="settings-userid" class="grey-text">ID: 匿名ユーザー</p>
+                    </div>
+                  </div>
+                  <div class="center-align" style="margin-top: 20px;">
+                    <button id="settings-profile-button" class="btn waves-effect waves-light">
+                      <i class="material-icons left">person</i>プロフィール表示
+                    </button>
+                  </div>
+                  <div class="center-align" style="margin-top: 10px;">
+                    <button id="settings-login-button" class="btn waves-effect waves-light red">
+                      <i class="material-icons left">login</i>Googleでログイン
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- 言語設定 -->
+          <div class="row">
+            <div class="col s12">
+              <div class="card">
+                <div class="card-content">
+                  <span class="card-title">言語設定</span>
+                  <div class="input-field">
+                    <select id="language-select">
+                      <option value="ja">日本語</option>
+                      <option value="en">English</option>
+                      <option value="tr">Türkçe</option>
+                    </select>
+                    <label>言語を選択</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- ダークモード -->
+          <div class="row">
+            <div class="col s12">
+              <div class="card">
+                <div class="card-content">
+                  <span class="card-title">ダークモード</span>
+                  <div class="switch">
+                    <label>
+                      オフ
+                      <input type="checkbox" id="dark-mode-switch">
+                      <span class="lever"></span>
+                      オン
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- アプリ情報 -->
+          <div class="row">
+            <div class="col s12">
+              <div class="card">
+                <div class="card-content">
+                  <span class="card-title">アプリについて</span>
+                  <p>Emoji jem バージョン 1.0.0</p>
+                  <p>絵文字だけで会話を楽しむメッセージアプリです。</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+    
+    <!-- 絵文字投稿エリア -->
+    <div id="emoji-input-area" class="emoji-input-container">
+      <div class="emoji-input-wrapper">
+        <div id="selected-emoji" class="selected-emoji"></div>
+        <button id="clear-emoji-button" class="btn-floating btn-small waves-effect waves-light red" style="display:none; margin-right: 10px;">
+          <i class="material-icons">clear</i>
+        </button>
+        <button id="emoji-palette-button" class="btn-floating btn-large waves-effect waves-light" onclick="toggleEmojiPalette()">
+          <i class="material-icons">add</i>
+        </button>
+        <button id="send-button" class="btn-floating btn-large waves-effect waves-light" onclick="sendEmoji()" disabled>
+          <i class="material-icons">send</i>
+        </button>
+      </div>
+      
+      <!-- 絵文字パレット -->
+      <div id="emoji-palette" class="emoji-palette" style="display:none;">
+        <div class="emoji-tabs">
+          <div class="emoji-tab active" data-category="recent" onclick="loadEmojiCategory('recent')">🕙</div>
+          <div class="emoji-tab" data-category="smileys" onclick="loadEmojiCategory('smileys')">😀</div>
+          <div class="emoji-tab" data-category="animals" onclick="loadEmojiCategory('animals')">🐱</div>
+          <div class="emoji-tab" data-category="food" onclick="loadEmojiCategory('food')">🍔</div>
+          <div class="emoji-tab" data-category="activities" onclick="loadEmojiCategory('activities')">⚽</div>
+          <div class="emoji-tab" data-category="travel" onclick="loadEmojiCategory('travel')">🚗</div>
+          <div class="emoji-tab" data-category="objects" onclick="loadEmojiCategory('objects')">💡</div>
+          <div class="emoji-tab" data-category="symbols" onclick="loadEmojiCategory('symbols')">❤️</div>
+          <div class="emoji-tab" data-category="flags" onclick="loadEmojiCategory('flags')">🏁</div>
+        </div>
+        <div class="emoji-content">
+          <!-- 絵文字の初期表示（JavaScript不具合の場合のフォールバック） -->
+          <div class="emoji-item" onclick="selectEmoji('😀')">😀</div>
+          <div class="emoji-item" onclick="selectEmoji('😊')">😊</div>
+          <div class="emoji-item" onclick="selectEmoji('👍')">👍</div>
+          <div class="emoji-item" onclick="selectEmoji('❤️')">❤️</div>
+          <div class="emoji-item" onclick="selectEmoji('🎉')">🎉</div>
+          <div class="emoji-item" onclick="selectEmoji('👋')">👋</div>
+          <div class="emoji-item" onclick="selectEmoji('😂')">😂</div>
+          <div class="emoji-item" onclick="selectEmoji('🥰')">🥰</div>
+        </div>
+      </div>
     </div>
-    <p id="load">Firebase SDK Loading&hellip;</p>
-
-    <script>
-      document.addEventListener('DOMContentLoaded', function() {
-        const loadEl = document.querySelector('#load');
-        // // 🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥
-        // // The Firebase SDK is initialized and available here!
-        //
-        // firebase.auth().onAuthStateChanged(user => { });
-        // firebase.database().ref('/path/to/ref').on('value', snapshot => { });
-        // firebase.firestore().doc('/foo/bar').get().then(() => { });
-        // firebase.functions().httpsCallable('yourFunction')().then(() => { });
-        // firebase.messaging().requestPermission().then(() => { });
-        // firebase.storage().ref('/path/to/ref').getDownloadURL().then(() => { });
-        // firebase.analytics(); // call to activate
-        // firebase.analytics().logEvent('tutorial_completed');
-        // firebase.performance(); // call to activate
-        //
-        // // 🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥
-
-        try {
-          let app = firebase.app();
-          let features = [
-            'auth', 
-            'database', 
-            'firestore',
-            'functions',
-            'messaging', 
-            'storage', 
-            'analytics', 
-            'remoteConfig',
-            'performance',
-          ].filter(feature => typeof app[feature] === 'function');
-          loadEl.textContent = `Firebase SDK loaded with ${features.join(', ')}`;
-        } catch (e) {
-          console.error(e);
-          loadEl.textContent = 'Error loading the Firebase SDK, check the console.';
-        }
+    
+    <!-- 削除確認モーダル -->
+    <div id="delete-modal" class="modal">
+      <div class="modal-content">
+        <h4>投稿を削除しますか？</h4>
+        <p>この操作は元に戻せません。</p>
+      </div>
+      <div class="modal-footer">
+        <a href="#!" class="modal-close waves-effect waves-green btn-flat">キャンセル</a>
+        <a href="#!" id="confirm-delete" class="modal-close waves-effect waves-red btn-flat">削除</a>
+      </div>
+    </div>
+    
+    <!-- ログインモーダル -->
+    <div id="login-modal" class="modal">
+      <div class="modal-content">
+        <h4>ログイン</h4>
+        <p>Googleアカウントでログインして、あなたの投稿を認証付きで表示できます。</p>
+        <div class="center-align" style="margin-top: 30px;">
+          <button id="google-login-button" class="btn waves-effect waves-light red">
+            <i class="material-icons left">login</i>Googleでログイン
+          </button>
+        </div>
+        <p class="center-align" style="margin-top: 20px; color: #777;">
+          ※ログインしなくても匿名で投稿できます。<br>
+          ※ユーザー名は自由に設定できます。Googleアカウント名は表示されません。
+        </p>
+      </div>
+      <div class="modal-footer">
+        <a href="#!" class="modal-close waves-effect waves-green btn-flat">閉じる</a>
+      </div>
+    </div>
+    
+    <!-- 下部ナビゲーションバー -->
+    <div class="bottom-nav">
+      <div class="nav-item active" data-target="message-container">
+        <i class="material-icons">home</i>
+        <span>ホーム</span>
+      </div>
+      <div class="nav-item" data-target="dm-list-container" id="dm-nav-item">
+        <i class="material-icons">chat</i>
+        <span>DM</span>
+      </div>
+      <div class="nav-item" data-target="profile-container" id="profile-nav-item">
+        <i class="material-icons">person</i>
+        <span>プロフィール</span>
+      </div>
+      <div class="nav-item" data-target="settings-container">
+        <i class="material-icons">settings</i>
+        <span>設定</span>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Service Worker登録 -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./service-worker.js')
+          .then(reg => console.log('Service Worker registered'))
+          .catch(err => console.error('Service Worker registration failed:', err));
       });
-    </script>
-  </body>
+    }
+  </script>
+  
+  <!-- Firebase SDK -->
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/firebase/9.23.0/firebase-app-compat.min.js"></script>
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/firebase/9.23.0/firebase-auth-compat.min.js"></script>
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/firebase/9.23.0/firebase-database-compat.min.js"></script>
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/firebase/9.23.0/firebase-storage-compat.min.js"></script>
+  
+  <!-- Materialize JS -->
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+  
+  <!-- メインJS -->
+  <script defer src="./js/main.js"></script>
+</body>
 </html>
